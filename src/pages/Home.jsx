@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table, Button, Form, Modal } from 'react-bootstrap';
+import axios from 'axios';
 
 const Home = () => {
   const [tasks, setTasks] = useState([]);
@@ -8,45 +9,72 @@ const Home = () => {
   const [editingTask, setEditingTask] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
-  const addTask = () => {
-    if (newTitle.trim() && newDescription.trim()) {
-      setTasks([
-        ...tasks,
-        { id: Date.now(), title: newTitle, description: newDescription, completed: false },
-      ]);
-      setNewTitle('');
-      setNewDescription('');
+  // Función para obtener las tareas desde el backend
+  const fetchTasks = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/tareas');
+      setTasks(response.data);
+    } catch (err) {
+      console.error('Error al obtener las tareas', err);
     }
   };
 
-  const deleteTask = (id) => {
-    setTasks(tasks.filter((task) => task.id !== id));
+  // Función para agregar una tarea
+  const addTask = async () => {
+    if (newTitle.trim() && newDescription.trim()) {
+      try {
+        const newTask = { title: newTitle, description: newDescription };
+        await axios.post('http://localhost:5000/tareas', newTask);
+        setNewTitle('');
+        setNewDescription('');
+        fetchTasks(); // Refrescar la lista de tareas
+      } catch (err) {
+        console.error('Error al agregar la tarea', err);
+      }
+    }
   };
 
-  const toggleComplete = (id) => {
-    setTasks(
-      tasks.map((task) =>
-        task.id === id ? { ...task, completed: !task.completed } : task
-      )
-    );
+  // Función para eliminar una tarea
+  const deleteTask = async (id) => {
+    try {
+      await axios.delete(`http://localhost:5000/tareas/${id}`);
+      fetchTasks(); // Refrescar la lista de tareas
+    } catch (err) {
+      console.error('Error al eliminar la tarea', err);
+    }
   };
 
-  const openEditModal = (task) => {
-    setEditingTask(task);
-    setShowModal(true);
+  // Función para actualizar una tarea
+  const saveEdit = async () => {
+    try {
+      const updatedTask = {
+        title: editingTask.title,
+        description: editingTask.description,
+        completed: editingTask.completed,
+      };
+      await axios.put(`http://localhost:5000/tareas/${editingTask._id}`, updatedTask);
+      setShowModal(false);
+      setEditingTask(null);
+      fetchTasks(); // Refrescar la lista de tareas
+    } catch (err) {
+      console.error('Error al editar la tarea', err);
+    }
   };
 
-  const saveEdit = () => {
-    setTasks(
-      tasks.map((task) =>
-        task.id === editingTask.id
-          ? { ...task, title: editingTask.title, description: editingTask.description }
-          : task
-      )
-    );
-    setShowModal(false);
-    setEditingTask(null);
+  // Función para manejar el cambio de estado (completada/no completada)
+  const toggleComplete = async (id, completed) => {
+    try {
+      await axios.put(`http://localhost:5000/tareas/${id}`, { completed: !completed });
+      fetchTasks(); // Refrescar la lista de tareas
+    } catch (err) {
+      console.error('Error al cambiar el estado de la tarea', err);
+    }
   };
+
+  // Cargar las tareas cuando el componente se monta
+  useEffect(() => {
+    fetchTasks();
+  }, []);
 
   return (
     <div className="container mt-4">
@@ -85,7 +113,7 @@ const Home = () => {
         </thead>
         <tbody>
           {tasks.map((task, index) => (
-            <tr key={task.id}>
+            <tr key={task._id}>
               <td>{index + 1}</td>
               <td style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>
                 {task.title}
@@ -96,7 +124,7 @@ const Home = () => {
                 <Button
                   variant="success"
                   size="sm"
-                  onClick={() => toggleComplete(task.id)}
+                  onClick={() => toggleComplete(task._id, task.completed)}
                   className="me-2"
                 >
                   {task.completed ? 'Desmarcar' : 'Completar'}
@@ -104,12 +132,19 @@ const Home = () => {
                 <Button
                   variant="warning"
                   size="sm"
-                  onClick={() => openEditModal(task)}
+                  onClick={() => {
+                    setEditingTask(task);
+                    setShowModal(true);
+                  }}
                   className="me-2"
                 >
                   Editar
                 </Button>
-                <Button variant="danger" size="sm" onClick={() => deleteTask(task.id)}>
+                <Button
+                  variant="danger"
+                  size="sm"
+                  onClick={() => deleteTask(task._id)}
+                >
                   Eliminar
                 </Button>
               </td>
