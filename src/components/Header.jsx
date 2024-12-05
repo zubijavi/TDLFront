@@ -58,7 +58,7 @@ const Header = () => {
               <Nav className="text-center w-100 justify-content-around">
                 <Nav.Link href="/">Tareas</Nav.Link>
                 <Nav.Link href="/contact">Contacto</Nav.Link>
-                <Nav.Link href="/about">Documentación</Nav.Link>
+                <Nav.Link href="/documentation">Documentación</Nav.Link>
               </Nav>
             </Navbar.Collapse>
 
