@@ -1,0 +1,46 @@
+/* src/.css */
+
+/* Estilo para el modo de alto contraste */
+body.high-contrast {
+  background-color: black; /* Fondo negro para todo el cuerpo */
+  color: white; /* Texto blanco por defecto */
+}
+
+/* Header y Footer en modo alto contraste */
+body.high-contrast .navbar {
+  background-color: #222 !important; /* Fondo oscuro */
+  color: white !important; /* Texto blanco */
+}
+
+body.high-contrast .navbar .navbar-brand,
+body.high-contrast .navbar .navbar-text,
+body.high-contrast .navbar button {
+  color: white !important; /* Texto blanco */
+}
+.high-contrast .navbar-nav .nav-link {
+  color: #f1f1f1 !important; /* Texto más claro */
+}
+
+body.high-contrast .navbar button {
+  background-color: #444 !important; /* Fondo oscuro */
+  border: 1px solid #666; /* Borde tenue */
+}
+main{
+  min-height: 53.5vh;
+  
+}
+
+
+.modak {
+  font-family: "Modak", system-ui;
+  font-weight: 400;
+  font-style: normal;
+  /* font-size: 5vw !important; */
+}
+.cursive{
+  font-family: cursive;
+}
+.borde{
+  border: dashed 3px red;
+}
+
