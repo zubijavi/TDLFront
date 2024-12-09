@@ -12,7 +12,7 @@ const Home = () => {
   // Función para obtener las tareas desde el backend
   const fetchTasks = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/tareas');
+      const response = await axios.get('https://tdlbackend-production.up.railway.app/api/tareas');
       setTasks(response.data);
     } catch (err) {
       console.error('Error al obtener las tareas', err);
@@ -24,7 +24,7 @@ const Home = () => {
     if (newTitle.trim() && newDescription.trim()) {
       try {
         const newTask = { title: newTitle, description: newDescription };
-        await axios.post('http://localhost:5000/tareas', newTask);
+        await axios.post('https://tdlbackend-production.up.railway.app/api/tareas', newTask);
         setNewTitle('');
         setNewDescription('');
         fetchTasks(); // Refrescar la lista de tareas
@@ -37,7 +37,7 @@ const Home = () => {
   // Función para eliminar una tarea
   const deleteTask = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/tareas/${id}`);
+      await axios.delete(`https://tdlbackend-production.up.railway.app/api/tareas/${id}`);
       fetchTasks(); // Refrescar la lista de tareas
     } catch (err) {
       console.error('Error al eliminar la tarea', err);
@@ -52,7 +52,7 @@ const Home = () => {
         description: editingTask.description,
         completed: editingTask.completed,
       };
-      await axios.put(`http://localhost:5000/tareas/${editingTask._id}`, updatedTask);
+      await axios.put(`https://tdlbackend-production.up.railway.app/api/tareas/${editingTask._id}`, updatedTask);
       setShowModal(false);
       setEditingTask(null);
       fetchTasks(); // Refrescar la lista de tareas
@@ -64,7 +64,7 @@ const Home = () => {
   // Función para manejar el cambio de estado (completada/no completada)
   const toggleComplete = async (id, completed) => {
     try {
-      await axios.put(`http://localhost:5000/tareas/${id}`, { completed: !completed });
+      await axios.put(`https://tdlbackend-production.up.railway.app/api/tareas/${id}`, { completed: !completed });
       fetchTasks(); // Refrescar la lista de tareas
     } catch (err) {
       console.error('Error al cambiar el estado de la tarea', err);
