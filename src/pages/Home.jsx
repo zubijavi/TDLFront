@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Form, Modal } from 'react-bootstrap';
+import { Table, Button, Form, Modal, Alert } from 'react-bootstrap';
 import axios from 'axios';
 
 const Home = () => {
@@ -8,6 +8,7 @@ const Home = () => {
   const [newDescription, setNewDescription] = useState('');
   const [editingTask, setEditingTask] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [error, setError] = useState('');  // Estado para el error
 
   // Función para obtener las tareas desde el backend
   const fetchTasks = async () => {
@@ -20,13 +21,20 @@ const Home = () => {
   };
 
   // Función para agregar una tarea
-  const addTask = async () => {
+  const addTask = async (e) => {
+    e.preventDefault();
+    if (!newTitle.trim() || !newDescription.trim()) {
+      setError('El título y la descripcion de la tare son campos obligatorios');  // Mostrar error si el título está vacío
+      return;
+    }
+ 
     if (newTitle.trim() && newDescription.trim()) {
       try {
         const newTask = { title: newTitle, description: newDescription };
         await axios.post('https://tdlbackend-production.up.railway.app/api/tareas', newTask);
         setNewTitle('');
         setNewDescription('');
+        setError('');  // Limpiar el error después de agregar la tarea
         fetchTasks(); // Refrescar la lista de tareas
       } catch (err) {
         console.error('Error al agregar la tarea', err);
@@ -79,29 +87,35 @@ const Home = () => {
   return (
     <div className="container mt-4">
       <h1 className="text-center mb-4 cursive fs-3">Lista de Tareas</h1>
+
       {/* Formulario para agregar tareas */}
-      <Form className="mb-3 d-flex flex-column align-items-center">
+      <Form onSubmit={addTask} className="mb-3 d-flex flex-column align-items-center" aria-label="Formulario para agregar tareas">
         <Form.Control
           type="text"
           placeholder="Título de la tarea"
           value={newTitle}
           onChange={(e) => setNewTitle(e.target.value)}
           className="mb-2"
+          aria-label="Ingresar el título de la tarea"
         />
+
         <Form.Control
           type="text"
           placeholder="Descripción de la tarea"
           value={newDescription}
           onChange={(e) => setNewDescription(e.target.value)}
           className="mb-2"
-        />
-        <Button variant="primary" onClick={addTask} className="mt-2">
-          Agregar
+          aria-label="Ingresar la descripción de la tarea"
+          />
+          {/* Mostrar el error si no hay título o descripcion */}
+          {error && <Alert variant="danger" className="w-100">{error}</Alert>}
+        <Button variant="primary" type="submit" className="mt-2" aria-label="Agregar tarea">
+          Agregar Tarea
         </Button>
       </Form>
 
       {/* Tabla de tareas */}
-      <Table striped bordered hover className="text-center">
+      <Table striped bordered hover className="text-center" aria-label="Tabla de tareas">
         <thead>
           <tr>
             <th>#</th>
@@ -126,6 +140,7 @@ const Home = () => {
                   size="sm"
                   onClick={() => toggleComplete(task._id, task.completed)}
                   className="me-2"
+                  aria-label={`Marcar como ${task.completed ? 'pendiente' : 'completada'}`}
                 >
                   {task.completed ? 'Desmarcar' : 'Completar'}
                 </Button>
@@ -137,6 +152,7 @@ const Home = () => {
                     setShowModal(true);
                   }}
                   className="me-2"
+                  aria-label="Editar tarea"
                 >
                   Editar
                 </Button>
@@ -144,6 +160,7 @@ const Home = () => {
                   variant="danger"
                   size="sm"
                   onClick={() => deleteTask(task._id)}
+                  aria-label="Eliminar tarea"
                 >
                   Eliminar
                 </Button>
@@ -155,9 +172,9 @@ const Home = () => {
 
       {/* Modal para editar tareas */}
       {editingTask && (
-        <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal show={showModal} onHide={() => setShowModal(false)} aria-labelledby="editar-tarea">
           <Modal.Header closeButton>
-            <Modal.Title>Editar Tarea</Modal.Title>
+            <Modal.Title id="editar-tarea">Editar Tarea</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form.Control
@@ -167,6 +184,7 @@ const Home = () => {
                 setEditingTask({ ...editingTask, title: e.target.value })
               }
               className="mb-2"
+              aria-label="Editar título de la tarea"
             />
             <Form.Control
               type="text"
@@ -174,13 +192,14 @@ const Home = () => {
               onChange={(e) =>
                 setEditingTask({ ...editingTask, description: e.target.value })
               }
+              aria-label="Editar descripción de la tarea"
             />
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShowModal(false)}>
+            <Button variant="secondary" onClick={() => setShowModal(false)} aria-label="Cancelar edición">
               Cancelar
             </Button>
-            <Button variant="primary" onClick={saveEdit}>
+            <Button variant="primary" onClick={saveEdit} aria-label="Guardar cambios">
               Guardar
             </Button>
           </Modal.Footer>

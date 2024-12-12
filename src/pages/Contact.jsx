@@ -77,10 +77,13 @@ const Contacto = () => {
     <Container className="my-5">
       <p className="text-center cursive">Dejanos tu mensaje</p>
 
-      {success && <Alert variant="success">Mensaje Enviado Correctamente</Alert>}
-      {errors.general && <Alert variant="danger">{errors.general}</Alert>}
+      {success && <Alert variant="success" role="alert">Mensaje Enviado Correctamente</Alert>}
+      {errors.general && <Alert variant="danger" role="alert">{errors.general}</Alert>}
 
-      <Form onSubmit={handleSubmit} noValidate>
+      <Form onSubmit={handleSubmit} noValidate aria-labelledby="contact-form-title">
+        <h1 id="contact-form-title" className="sr-only">Formulario de Contacto</h1>
+
+        {/* Campo Nombre */}
         <Form.Group controlId="formNombre" className="mb-3">
           <Form.Label>Nombre</Form.Label>
           <Form.Control
@@ -90,10 +93,18 @@ const Contacto = () => {
             value={formData.nombre}
             onChange={handleChange}
             isInvalid={!!errors.nombre}
+            aria-label="Nombre"
+            aria-required="true"
+            aria-describedby="nombre-error"
           />
-          <Form.Control.Feedback type="invalid">{errors.nombre}</Form.Control.Feedback>
+          {errors.nombre && (
+            <Form.Control.Feedback type="invalid" id="nombre-error" aria-live="polite">
+              {errors.nombre}
+            </Form.Control.Feedback>
+          )}
         </Form.Group>
 
+        {/* Campo Email */}
         <Form.Group controlId="formEmail" className="mb-3">
           <Form.Label>Email</Form.Label>
           <Form.Control
@@ -103,10 +114,18 @@ const Contacto = () => {
             value={formData.email}
             onChange={handleChange}
             isInvalid={!!errors.email}
+            aria-label="Correo Electrónico"
+            aria-required="true"
+            aria-describedby="email-error"
           />
-          <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
+          {errors.email && (
+            <Form.Control.Feedback type="invalid" id="email-error" aria-live="polite">
+              {errors.email}
+            </Form.Control.Feedback>
+          )}
         </Form.Group>
 
+        {/* Campo Mensaje */}
         <Form.Group controlId="formMensaje" className="mb-3">
           <Form.Label>Mensaje</Form.Label>
           <Form.Control
@@ -117,11 +136,24 @@ const Contacto = () => {
             value={formData.mensaje}
             onChange={handleChange}
             isInvalid={!!errors.mensaje}
+            aria-label="Mensaje"
+            aria-required="true"
+            aria-describedby="mensaje-error"
           />
-          <Form.Control.Feedback type="invalid">{errors.mensaje}</Form.Control.Feedback>
+          {errors.mensaje && (
+            <Form.Control.Feedback type="invalid" id="mensaje-error" aria-live="polite">
+              {errors.mensaje}
+            </Form.Control.Feedback>
+          )}
         </Form.Group>
 
-        <Button variant="primary" type="submit" className="w-100">
+        {/* Botón Enviar */}
+        <Button
+          variant="primary"
+          type="submit"
+          className="w-100"
+          aria-label="Enviar formulario de contacto"
+        >
           Enviar
         </Button>
       </Form>
