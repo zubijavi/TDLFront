@@ -2,8 +2,8 @@ import React from 'react';
 
 const About = () => {
   return (
-    
-    
+
+
     <div className="container mt-5">
       <h1 className="text-center mb-4 modak">Documentación del Proyecto</h1>
       <h1 className="text-center mb-4">To-Do List</h1>
@@ -36,6 +36,9 @@ const About = () => {
                 Se han implementado etiquetas <strong>ARIA (aria-label)</strong> para garantizar una correcta navegación y comprensión de la interfaz con lectores de pantalla.
               </li>
             </ul>
+            <li>
+              El formulario de contacto utiliza <strong>EmailJS</strong> para enviar mensajes de forma rápida y sin necesidad de un servidor adicional para gestionar correos electrónicos.
+            </li>
           </li>
           <li>Despliegue en la nube: El frontend fue desplegado en <strong>Vercel</strong>.</li>
         </ul>
@@ -68,7 +71,6 @@ const About = () => {
         </p>
         <ul>
           <li>Realizar un seguimiento detallado de los cambios realizados en el código.</li>
-          <li>Trabajar de manera colaborativa con ramas para evitar conflictos en el desarrollo.</li>
           <li>Mantener un historial claro y accesible de las versiones del proyecto.</li>
         </ul>
         <p>
@@ -83,15 +85,15 @@ const About = () => {
       <div>
         <h2>Despliegue en la Nube</h2>
         <p>
-          Todo el proyecto está completamente desplegado en la nube, utilizando servicios modernos y escalables:
+          Todo el proyecto está completamente desplegado en la nube:
         </p>
         <ul>
-          <li><strong>Frontend:</strong> Desplegado en Vercel para un acceso rápido y global.</li>
-          <li><strong>Backend:</strong> Desplegado en Railway para garantizar un rendimiento óptimo de la API.</li>
-          <li><strong>Base de datos:</strong> Almacenada en MongoDB Atlas, un servicio confiable y seguro para bases de datos en la nube.</li>
+          <li><strong>Frontend:</strong> Desplegado en Vercel.</li>
+          <li><strong>Backend:</strong> Desplegado en Railway.</li>
+          <li><strong>Base de datos:</strong> Almacenada en MongoDB Atlas.</li>
         </ul>
         <p>
-          Esta arquitectura asegura que los usuarios puedan acceder a la aplicación desde cualquier lugar, con alta disponibilidad y rendimiento.
+          Esta arquitectura asegura que los usuarios puedan acceder a la aplicación desde cualquier lugar.
         </p>
       </div>
     </div>
