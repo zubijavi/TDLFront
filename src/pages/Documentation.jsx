@@ -75,7 +75,6 @@ const About = () => {
           Además, se utilizó <strong>GitHub</strong> como plataforma para alojar el repositorio remoto, facilitando:
         </p>
         <ul>
-          <li>La colaboración entre desarrolladores.</li>
           <li>La integración con herramientas de despliegue continuo.</li>
           <li>El acceso centralizado al código fuente desde cualquier lugar.</li>
         </ul>
