@@ -75,13 +75,12 @@ const Contacto = () => {
 
   return (
     <Container className="my-5">
-      <p className="text-center cursive">Dejanos tu mensaje</p>
+      <p className="text-center cursive">Dejanos tu mensajse</p>
 
       {success && <Alert variant="success" role="alert">Mensaje Enviado Correctamente</Alert>}
       {errors.general && <Alert variant="danger" role="alert">{errors.general}</Alert>}
 
       <Form onSubmit={handleSubmit} noValidate aria-labelledby="contact-form-title">
-        <h1 id="contact-form-title" className="sr-only">Formulario de Contacto</h1>
 
         {/* Campo Nombre */}
         <Form.Group controlId="formNombre" className="mb-3">
