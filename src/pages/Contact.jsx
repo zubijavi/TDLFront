@@ -75,7 +75,7 @@ const Contacto = () => {
 
   return (
     <Container className="my-5">
-      <p className="text-center cursive">Dejanos tu mensajse</p>
+      <p className="text-center cursive fs-3">Dejanos tu mensajse</p>
 
       {success && <Alert variant="success" role="alert">Mensaje Enviado Correctamente</Alert>}
       {errors.general && <Alert variant="danger" role="alert">{errors.general}</Alert>}
